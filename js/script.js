@@ -34,17 +34,60 @@ async function displayPopMovies() {
 	});
 }
 
+async function displayTwenty() {
+	const { results } = await fetchAPIData('tv/popular');
+	results.forEach((show) => {
+		const tvCard = document.createElement('div');
+		tvCard.classList.add('card');
+		tvCard.innerHTML = `
+					<a href="tv-details.html?id=${show.id}">
+    ${
+			show.poster_path
+				? `<img
+							src="https://image.tmdb.org/t/p/w500${show.poster_path}"
+							class="card-img-top"
+							alt="${show.name}"
+						/>`
+				: `<img
+							src="images/no-image.jpg"
+							class="card-img-top"
+							alt="${show.name}"
+						/>`
+		}
+					</a>
+					<div class="card-body">
+						<h5 class="card-title">${show.name}</h5>
+						<p class="card-text">
+							<small class="text-muted">Air date: ${show.first_air_date}</small>
+						</p>
+					</div>
+				`;
+		document.querySelector('#popular-shows').appendChild(tvCard);
+	});
+}
+
 async function fetchAPIData(endpoint) {
 	const API_KEY = '6dd66f7277fc9eb98e90301a5073dbfe';
 	const API_URL = 'https://api.themoviedb.org/3/';
+
+	showSpinner();
 
 	const response = await fetch(
 		`${API_URL}${endpoint}?api_key=${API_KEY}&language=hu-HU`
 	);
 
 	const data = await response.json();
+	hideSpinner();
 	return data;
 }
+
+showSpinner = () => {
+	document.querySelector('.spinner').classList.add('show');
+};
+
+hideSpinner = () => {
+	document.querySelector('.spinner').classList.remove('show');
+};
 
 highLightLink = () => {
 	const navLinks = document.querySelectorAll('.nav-link');
@@ -63,6 +106,7 @@ init = () => {
 			console.log('home');
 			break;
 		case '/shows.html':
+			displayTwenty();
 			console.log('shows');
 			break;
 		case '/movie-details.html':
