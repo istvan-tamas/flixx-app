@@ -218,6 +218,23 @@ displayBackgroundImage = (type, backgroundPath) => {
 	}
 };
 
+async function displaySlider() {
+	const { results } = await fetchAPIData('movie/now_playing');
+
+	results.forEach((result) => {
+		const div = document.createElement('div');
+		div.classList.add('swiper-slide');
+		div.innerHTML = `
+						<a href="movie-details.html?id=1">
+							<img src="./images/no-image.jpg" alt="Movie Title" />
+						</a>
+						<h4 class="swiper-rating">
+							<i class="fas fa-star text-secondary"></i> 8 / 10
+						</h4>
+		`;
+	});
+}
+
 async function fetchAPIData(endpoint) {
 	const API_KEY = '6dd66f7277fc9eb98e90301a5073dbfe';
 	const API_URL = 'https://api.themoviedb.org/3/';
@@ -258,6 +275,7 @@ init = () => {
 	switch (state.currentPage) {
 		case '/':
 		case '/index.html':
+			displaySlider();
 			displayPopMovies();
 			console.log('home');
 			break;
