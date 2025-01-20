@@ -306,6 +306,21 @@ async function fetchAPIData(endpoint) {
 	return data;
 }
 
+async function searchAPIData() {
+	const API_KEY = global.api.apiKey;
+	const API_URL = global.api.apiURL;
+
+	showSpinner();
+
+	const response = await fetch(
+		`${API_URL}search/${global.search.type}?api_key=${API_KEY}&language=hu-HU&query=${global.search.term}`
+	);
+
+	const data = await response.json();
+	hideSpinner();
+	return data;
+}
+
 showSpinner = () => {
 	document.querySelector('.spinner').classList.add('show');
 };
