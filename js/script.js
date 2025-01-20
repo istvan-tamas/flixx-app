@@ -9,6 +9,10 @@ const global = {
 		page: 1,
 		totalPages: 1,
 	},
+	api: {
+		apiKey: '6dd66f7277fc9eb98e90301a5073dbfe',
+		apiURL: 'https://api.themoviedb.org/3/',
+	},
 };
 
 async function displayPopMovies() {
@@ -257,8 +261,9 @@ async function search() {
 	global.search.term = urlParams.get('search-term');
 
 	if (global.search.term !== '' && global.search.term !== null) {
+		const results = await searchAPIData();
 	} else {
-		alert('Enter a search term!');
+		showAlert('Please enter a valid search term!');
 	}
 }
 
@@ -287,8 +292,8 @@ initSwiper = () => {
 };
 
 async function fetchAPIData(endpoint) {
-	const API_KEY = '6dd66f7277fc9eb98e90301a5073dbfe';
-	const API_URL = 'https://api.themoviedb.org/3/';
+	const API_KEY = global.api.apiKey;
+	const API_URL = global.api.apiURL;
 
 	showSpinner();
 
@@ -316,6 +321,15 @@ highLightLink = () => {
 			link.classList.add('active');
 		}
 	});
+};
+
+showAlert = (message, className) => {
+	const alertElement = document.createElement('div');
+	alertElement.classList.add('alert', className);
+	alertElement.appendChild(document.createTextNode(message));
+	document.querySelector('#alert').appendChild(alertElement);
+
+	setTimeout(() => alertElement.remove(), 3000);
 };
 
 addCommasToNumber = (number) => {
