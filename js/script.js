@@ -261,9 +261,13 @@ async function search() {
 	global.search.term = urlParams.get('search-term');
 
 	if (global.search.term !== '' && global.search.term !== null) {
-		const results = await searchAPIData();
+		const { results, totalPages, pageNumber } = await searchAPIData();
+
+		if (results.length === 0) {
+			showAlert();
+		}
 	} else {
-		showAlert('Please enter a valid search term!');
+		showAlert('Please enter a valid search term!', 'error');
 	}
 }
 
