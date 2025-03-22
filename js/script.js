@@ -11,7 +11,7 @@ const global = {
 		totalResults: 0,
 	},
 	api: {
-		apiKey: '6dd66f7277fc9eb98e90301a5073dbfe',
+		apiKey: '',
 		apiURL: 'https://api.themoviedb.org/3/',
 	},
 };
